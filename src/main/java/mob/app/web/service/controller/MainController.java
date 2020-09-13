@@ -197,4 +197,26 @@ public class MainController {
 
   }
 
+  /*
+   * http://localhost:8080/paragliding/users/email-verification?token=8hnr4hs7
+   */
+  @GetMapping(path = "/email-verification", produces = { MediaType.APPLICATION_JSON_VALUE,
+      MediaType.APPLICATION_XML_VALUE })
+  public OperationStatusModel verifyEmailToken(@RequestParam(value = "token") String token) {
+
+    OperationStatusModel returnValue = new OperationStatusModel();
+
+    returnValue.setOperationName(RequestOperationName.VERIFY_EMAIL.name());
+
+    boolean isVerified = userService.verifyEmailToken(token);
+
+    if(isVerified){
+      returnValue.setOperationName(RequestOperationStatus.SUCCESS.name());
+    }else {
+      returnValue.setOperationName(RequestOperationStatus.ERROR.name());
+    }
+    return returnValue;
+
+  }
+
 }
